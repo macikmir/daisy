@@ -44,6 +44,12 @@ class DaisyFlowerSkill(MycroftSkill):
         self.register_intent(how_are_you_intent,
                              self.handle_how_are_you_intent)
 
+        can_i_tell_you_something_intent = IntentBuilder("CanITellYouSomethingIntent").require("CanITellYouSomething").build()
+        self.register_intent(can_i_tell_you_something_intent, self.handle_can_i_tell_you_something_intent)
+    
+        watering_plant_first_intent = IntentBuilder("WateringPlantFirstIntent").require("Wateringplantfirst").build()
+        self.register_intent(watering_plant_first_intent, self.handle_watering_plant_first_intent)
+
         self.humidityReaderInstance = humidityReader.I2C_Humidity_Reader()
         
     def ask_for_name(self):
@@ -94,6 +100,15 @@ class DaisyFlowerSkill(MycroftSkill):
         humidityReading = self.humidityReaderInstance.get_data()
         if (humidityReading < 5):
             self.speak_dialog("i.feel.thirsty",expect_response=False)
+    
+    def handle_watering_plant_first_intent(self, message):
+        self.speak_dialog("watering.plant.first.positive")
+        self.speak_dialog("watering.plant.first.negative")
+    def handle_can_i_tell_you_something_intent(self, message):
+        self.speak_dialog("can.i.tell.you.something")
+      
+        something = self.get_response("whats.on.your.mind")
+        self.speak_dialog("compliment")   
         
 
     def stop(self):
