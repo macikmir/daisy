@@ -104,7 +104,7 @@ class DaisyFlowerSkill(MycroftSkill):
     def handle_watering_plant_first_intent(self, message):
         humidityReading = self.humidityReaderInstance.get_data()
         #if (humidityReading < 5):
-            self.speak_dialog("watering.plant.first.positive")
+        self.speak_dialog("watering.plant.first.positive")
         #else:
             #self.speak_dialog("watering.plant.first.negative")
     def handle_can_i_tell_you_something_intent(self, message):
