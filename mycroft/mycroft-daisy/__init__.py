@@ -50,10 +50,12 @@ class DaisyFlowerSkill(MycroftSkill):
 
     def handle_who_are_you_intent(self, message):
         pixelsInstance.speak()
+        self.speak_dialog("hello",expect_response=False)
+        self.speak(self.settings.get('user.name'))
         self.speak_dialog("who.am.i",expect_response=False)
         newUser = self.settings.get('new.user')
         if (newUser == True):
-            userName = self.get_response('wha.is.your.name')
+            userName = self.get_response('what.is.your.name')
             self.settings['new.user'] = False
             self.setings['user.name'] = userName
         else:
