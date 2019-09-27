@@ -46,7 +46,14 @@ class DaisyFlowerSkill(MycroftSkill):
 
         self.humidityReaderInstance = humidityReader.I2C_Humidity_Reader()
         
-       
+    def ask_for_name(self):
+        newUser = self.settings.get('new.user')
+        if (newUser == True):
+            userName = self.get_response('what.is.your.name')
+            self.settings['new.user'] = False
+            self.settings['user.name'] = userName
+            self.speak(self.settings.get('user.name'),expect_response=False)
+            self.speak_dialog("is.nice.name",expect_response=False)
 
     def handle_who_are_you_intent(self, message):
         pixelsInstance.speak()
@@ -56,12 +63,7 @@ class DaisyFlowerSkill(MycroftSkill):
             self.speak(self.settings.get('user.name'))
         self.speak_dialog("who.am.i",expect_response=False)
         
-        if (newUser == True):
-            userName = self.get_response('what.is.your.name')
-            self.settings['new.user'] = False
-            self.settings['user.name'] = userName
-            self.speak(self.settings.get('user.name'),expect_response=False)
-            self.speak_dialog("is.nice.name",expect_response=False)
+        self.ask_for_name()
         
         somethingOnMind = self.ask_yesno('something.on.mind')
         pixelsInstance.listen()
@@ -83,8 +85,12 @@ class DaisyFlowerSkill(MycroftSkill):
                 self.speak_dialog("ok.talk.later",expect_response=False)
 
     def handle_how_are_you_intent(self, message):
-        self.speak(self.translate("how.are.you") + " " + str(self.humidityReaderInstance.get_data()),expect_response=False)
-
+        self.speak_dialog("how.are.you",expect_response=False)
+        self.ask_for_name()
+        humidityReading = self.humidityReaderInstance.get_data()
+        if (humidityReading < 5):
+            self.speak_dialog("i.feel.thirsty",expect_response=False)
+        
 
     def stop(self):
         pass
