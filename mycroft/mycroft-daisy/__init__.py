@@ -107,7 +107,11 @@ class DaisyFlowerSkill(MycroftSkill):
     def handle_can_i_tell_you_something_intent(self, message):
         self.speak_dialog("can.i.tell.you.something")
       
-        something = self.get_response("whats.on.your.mind")
+        userResponse = self.get_response("whats.on.your.mind")
+
+        if ("death" in userResponse or "died" in userResponse):
+            self.speak_dialog("death")
+
         self.speak_dialog("compliment")   
         
 
