@@ -50,6 +50,9 @@ class DaisyFlowerSkill(MycroftSkill):
         watering_plant_first_intent = IntentBuilder("WateringPlantFirstIntent").require("Wateringplantfirst").build()
         self.register_intent(watering_plant_first_intent, self.handle_watering_plant_first_intent)
 
+        recommendation_intent = IntentBuilder("RecommendationtaskIntent").require("Recommendationtask").build()
+        self.register_intent(recommendation_intent,self.handle_recommendation_intent)
+
         self.humidityReaderInstance = humidityReader.I2C_Humidity_Reader()
         
     def ask_for_name(self):
@@ -75,7 +78,7 @@ class DaisyFlowerSkill(MycroftSkill):
         pixelsInstance.listen()
         if somethingOnMind == "yes":
             pixelsInstance.speak()
-            userHasOnMind = self.ask_yesno('whats.on.your.mind')
+            userHasOnMind = self.get_response('whats.on.your.mind')
             pixelsInstance.listen()
             userHasOnMindTransformed = userHasOnMind.replace('i', 'you', 1)
             self.speak(self.translate("i.am.sorry.to.hear") + " " + userHasOnMindTransformed,expect_response=False)
@@ -113,6 +116,23 @@ class DaisyFlowerSkill(MycroftSkill):
             self.speak_dialog("death")
 
         self.speak_dialog("compliment")   
+
+    def handle_recommendation_intent(self, message):
+
+        responseOne = self.ask_yesno("Recommendationtaskfirst")
+        responseTwo = None
+        if responseOne == "yes":
+            responseTwo = self.speak_dialog("Recommendationtasksecondyes",expect_response=False)
+            return
+        else:
+            responseTwo = self.get_response("recommendationtasksecondno")
+        
+        responseThree = self.ask_yesno("Recommendationtaskthird")
+        if responseThree == "yes":
+            self.speak_dialog("Recommendationtaskfourthyes",expect_response=False)
+            return
+        else:
+            self.speak_dialog("Recommendationtaskfourthno")
         
 
     def stop(self):
