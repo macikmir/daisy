@@ -20,14 +20,14 @@ from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill
 from mycroft.util.log import getLogger
 
-from . import pixels 
+#from . import pixels 
 from . import humidityReader
 
 __author__ = 'macikmir'
 
 LOGGER = getLogger(__name__)
 
-pixelsInstance = pixels.Pixels()
+#pixelsInstance = pixels.Pixels()
 
 class DaisyFlowerSkill(MycroftSkill):
     def __init__(self):
@@ -35,14 +35,11 @@ class DaisyFlowerSkill(MycroftSkill):
 
     def initialize(self):
 
-        who_are_you_intent = IntentBuilder("WhoAreYouIntent"). \
-            require("WhoAreYouKeyword").build()
+        who_are_you_intent = IntentBuilder("WhoAreYouIntent").require("WhoAreYouKeyword").build()
         self.register_intent(who_are_you_intent, self.handle_who_are_you_intent)
 
-        how_are_you_intent = IntentBuilder("HowAreYouIntent"). \
-            require("HowAreYouKeyword").build()
-        self.register_intent(how_are_you_intent,
-                             self.handle_how_are_you_intent)
+        how_are_you_intent = IntentBuilder("HowAreYouIntent").require("HowAreYouKeyword").build()
+        self.register_intent(how_are_you_intent,self.handle_how_are_you_intent)
 
         can_i_tell_you_something_intent = IntentBuilder("CanITellYouSomethingIntent").require("CanITellYouSomething").build()
         self.register_intent(can_i_tell_you_something_intent, self.handle_can_i_tell_you_something_intent)
@@ -65,7 +62,7 @@ class DaisyFlowerSkill(MycroftSkill):
             self.speak_dialog("is.nice.name",expect_response=False)
 
     def handle_who_are_you_intent(self, message):
-        pixelsInstance.speak()
+        #pixelsInstance.speak()
         self.speak_dialog("hello",expect_response=False)
         newUser = self.settings.get('new.user')
         if (newUser == False):
@@ -75,22 +72,22 @@ class DaisyFlowerSkill(MycroftSkill):
         self.ask_for_name()
         
         somethingOnMind = self.ask_yesno('something.on.mind')
-        pixelsInstance.listen()
+        #pixelsInstance.listen()
         if somethingOnMind == "yes":
-            pixelsInstance.speak()
+            #pixelsInstance.speak()
             userHasOnMind = self.get_response('whats.on.your.mind')
-            pixelsInstance.listen()
+            #pixelsInstance.listen()
             userHasOnMindTransformed = userHasOnMind.replace('i', 'you', 1)
             self.speak(self.translate("i.am.sorry.to.hear") + " " + userHasOnMindTransformed,expect_response=False)
         else:
-            pixelsInstance.speak() 
+            #pixelsInstance.speak() 
             wantsPoem = self.ask_yesno('do.you.want.poem')
-            pixelsInstance.listen
+            #pixelsInstance.listen()
             if wantsPoem == "yes":
-                pixelsInstance.speak()
+                #pixelsInstance.speak()
                 self.speak_dialog("speak.poem",expect_response=False)
             else:
-                pixelsInstance.speak() 
+                #pixelsInstance.speak() 
                 self.speak_dialog("ok.talk.later",expect_response=False)
 
     def handle_how_are_you_intent(self, message):
@@ -105,8 +102,11 @@ class DaisyFlowerSkill(MycroftSkill):
             self.speak_dialog("i.feel.thirsty",expect_response=False)
     
     def handle_watering_plant_first_intent(self, message):
-        self.speak_dialog("watering.plant.first.positive")
-        self.speak_dialog("watering.plant.first.negative")
+        humidityReading = self.humidityReaderInstance.get_data()
+        if (humidityReading < 5):
+            self.speak_dialog("watering.plant.first.positive")
+        else:
+            self.speak_dialog("watering.plant.first.negative")
     def handle_can_i_tell_you_something_intent(self, message):
         self.speak_dialog("can.i.tell.you.something")
       
@@ -120,19 +120,12 @@ class DaisyFlowerSkill(MycroftSkill):
     def handle_recommendation_intent(self, message):
 
         responseOne = self.ask_yesno("Recommendationtaskfirst")
-        responseTwo = None
+        #responseTwo = None
         if responseOne == "yes":
             responseTwo = self.speak_dialog("Recommendationtasksecondyes",expect_response=False)
             return
-        else:
-            responseTwo = self.get_response("recommendationtasksecondno")
-        
-        responseThree = self.ask_yesno("Recommendationtaskthird")
-        if responseThree == "yes":
-            self.speak_dialog("Recommendationtaskfourthyes",expect_response=False)
-            return
-        else:
-            self.speak_dialog("Recommendationtaskfourthno")
+        #else:
+       
         
 
     def stop(self):
