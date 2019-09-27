@@ -57,7 +57,7 @@ class DaisyFlowerSkill(MycroftSkill):
         if (newUser == True):
             userName = self.get_response('what.is.your.name')
             self.settings['new.user'] = False
-            self.setings['user.name'] = userName
+            self.settings['user.name'] = userName
         else:
             somethingOnMind = self.ask_yesno('something.on.mind')
             pixelsInstance.listen()
