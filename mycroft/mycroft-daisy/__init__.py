@@ -86,7 +86,7 @@ class DaisyFlowerSkill(MycroftSkill):
 
     def handle_how_are_you_intent(self, message):
         self.speak_dialog("hello",expect_response=False)
-         if (newUser == False):
+        if (newUser == False):
             self.speak(self.settings.get('user.name'))       
         self.speak_dialog("how.are.you",expect_response=False)
         self.ask_for_name()
