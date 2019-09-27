@@ -21,7 +21,7 @@ from mycroft.skills.core import MycroftSkill
 from mycroft.util.log import getLogger
 
 #from . import pixels 
-from . import humidityReader
+#from . import humidityReader
 
 __author__ = 'macikmir'
 
@@ -50,7 +50,7 @@ class DaisyFlowerSkill(MycroftSkill):
         recommendation_intent = IntentBuilder("RecommendationtaskIntent").require("Recommendationtask").build()
         self.register_intent(recommendation_intent,self.handle_recommendation_intent)
 
-        self.humidityReaderInstance = humidityReader.I2C_Humidity_Reader()
+        #self.humidityReaderInstance = humidityReader.I2C_Humidity_Reader()
         
     def ask_for_name(self):
         newUser = self.settings.get('new.user')
@@ -97,16 +97,16 @@ class DaisyFlowerSkill(MycroftSkill):
             self.speak(self.settings.get('user.name'))       
         self.speak_dialog("how.are.you",expect_response=False)
         self.ask_for_name()
-        humidityReading = self.humidityReaderInstance.get_data()
-        if (humidityReading < 5):
-            self.speak_dialog("i.feel.thirsty",expect_response=False)
+        #humidityReading = self.humidityReaderInstance.get_data()
+        #if (humidityReading < 5):
+        self.speak_dialog("i.feel.thirsty",expect_response=False)
     
     def handle_watering_plant_first_intent(self, message):
         humidityReading = self.humidityReaderInstance.get_data()
-        if (humidityReading < 5):
+        #if (humidityReading < 5):
             self.speak_dialog("watering.plant.first.positive")
-        else:
-            self.speak_dialog("watering.plant.first.negative")
+        #else:
+            #self.speak_dialog("watering.plant.first.negative")
     def handle_can_i_tell_you_something_intent(self, message):
         self.speak_dialog("can.i.tell.you.something")
       
