@@ -85,6 +85,9 @@ class DaisyFlowerSkill(MycroftSkill):
                 self.speak_dialog("ok.talk.later",expect_response=False)
 
     def handle_how_are_you_intent(self, message):
+        self.speak_dialog("hello",expect_response=False)
+         if (newUser == False):
+            self.speak(self.settings.get('user.name'))       
         self.speak_dialog("how.are.you",expect_response=False)
         self.ask_for_name()
         humidityReading = self.humidityReaderInstance.get_data()
