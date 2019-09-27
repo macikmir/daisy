@@ -51,25 +51,30 @@ class DaisyFlowerSkill(MycroftSkill):
     def handle_who_are_you_intent(self, message):
         pixelsInstance.speak()
         self.speak_dialog("who.am.i",expect_response=False)
-        #somethingOnMind = self.get_response('something.on.mind')
-        somethingOnMind = self.ask_yesno('something.on.mind')
-        pixelsInstance.listen()
-        if somethingOnMind == "yes":
-            pixelsInstance.speak()
-            userHasOnMind = self.ask_yesno('whats.on.your.mind')
-            pixelsInstance.listen()
-            userHasOnMindTransformed = userHasOnMind.replace('i', 'you', 1)
-            self.speak(self.translate("i.am.sorry.to.hear") + " " + userHasOnMindTransformed,expect_response=False)
+        newUser = self.settings.get('new.user')
+        if (newUser == True):
+            userName = self.get_response('wha.is.your.name')
+            self.settings['new.user'] = False
+            self.setings['user.name'] = userName
         else:
-            pixelsInstance.speak() 
-            wantsPoem = self.ask_yesno('do.you.want.poem')
-            pixelsInstance.listen
-            if wantsPoem == "yes":
+            somethingOnMind = self.ask_yesno('something.on.mind')
+            pixelsInstance.listen()
+            if somethingOnMind == "yes":
                 pixelsInstance.speak()
-                self.speak_dialog("speak.poem",expect_response=False)
+                userHasOnMind = self.ask_yesno('whats.on.your.mind')
+                pixelsInstance.listen()
+                userHasOnMindTransformed = userHasOnMind.replace('i', 'you', 1)
+                self.speak(self.translate("i.am.sorry.to.hear") + " " + userHasOnMindTransformed,expect_response=False)
             else:
                 pixelsInstance.speak() 
-                self.speak_dialog("ok.talk.later",expect_response=False)
+                wantsPoem = self.ask_yesno('do.you.want.poem')
+                pixelsInstance.listen
+                if wantsPoem == "yes":
+                    pixelsInstance.speak()
+                    self.speak_dialog("speak.poem",expect_response=False)
+                else:
+                    pixelsInstance.speak() 
+                    self.speak_dialog("ok.talk.later",expect_response=False)
 
     def handle_how_are_you_intent(self, message):
         self.speak(self.translate("how.are.you") + " " + str(self.humidityReaderInstance.get_data()),expect_response=False)
