@@ -20,8 +20,8 @@ from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill
 from mycroft.util.log import getLogger
 
-from . import pixels
-import humidityReader
+from . import pixels 
+from . import humidityReader
 
 __author__ = 'macikmir'
 
