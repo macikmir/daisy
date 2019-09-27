@@ -61,7 +61,7 @@ class DaisyFlowerSkill(MycroftSkill):
             self.settings['new.user'] = False
             self.settings['user.name'] = userName
             self.speak(self.settings.get('user.name'),expect_response=False)
-            self.speak_dialog("who.am.i",expect_response=False)
+            self.speak_dialog("is.nice.name",expect_response=False)
         
         somethingOnMind = self.ask_yesno('something.on.mind')
         pixelsInstance.listen()
