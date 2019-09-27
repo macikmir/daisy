@@ -72,7 +72,7 @@ class DaisyFlowerSkill(MycroftSkill):
                 self.speak_dialog("ok.talk.later",expect_response=False)
 
     def handle_how_are_you_intent(self, message):
-        self.speak(self.translate("how.are.you") + " " + self.humidityReaderInstance.get_data(),expect_response=False)
+        self.speak(self.translate("how.are.you") + " " + str(self.humidityReaderInstance.get_data()),expect_response=False)
 
 
     def stop(self):
