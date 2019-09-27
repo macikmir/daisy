@@ -1,1 +1,5 @@
-{"__mycroft_skill_firstrun": false}
+{
+    "__mycroft_skill_firstrun": false,
+    "new.user": true,
+    "user.name": "Jane Doe"
+}
