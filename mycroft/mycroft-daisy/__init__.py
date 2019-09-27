@@ -20,13 +20,14 @@ from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill
 from mycroft.util.log import getLogger
 
-import pixels
+from . import pixels
 import humidityReader
 
 __author__ = 'macikmir'
 
 LOGGER = getLogger(__name__)
 
+pixelsInstance = pixels.Pixels()
 
 class DaisyFlowerSkill(MycroftSkill):
     def __init__(self):
@@ -48,26 +49,26 @@ class DaisyFlowerSkill(MycroftSkill):
        
 
     def handle_who_are_you_intent(self, message):
-        pixels.speak()
+        pixelsInstance.speak()
         self.speak_dialog("who.am.i",expect_response=False)
         #somethingOnMind = self.get_response('something.on.mind')
         somethingOnMind = self.ask_yesno('something.on.mind')
-        pixels.listen()
+        pixelsInstance.listen()
         if somethingOnMind == "yes":
-            pixels.speak()
+            pixelsInstance.speak()
             userHasOnMind = self.ask_yesno('whats.on.your.mind')
-            pixels.listen()
+            pixelsInstance.listen()
             userHasOnMindTransformed = userHasOnMind.replace('i', 'you', 1)
             self.speak(self.translate("i.am.sorry.to.hear") + " " + userHasOnMindTransformed,expect_response=False)
         else:
-            pixels.speak() 
+            pixelsInstance.speak() 
             wantsPoem = self.ask_yesno('do.you.want.poem')
-            pixels.listen
+            pixelsInstance.listen
             if wantsPoem == "yes":
-                pixels.speak()
+                pixelsInstance.speak()
                 self.speak_dialog("speak.poem",expect_response=False)
             else:
-                pixels.speak() 
+                pixelsInstance.speak() 
                 self.speak_dialog("ok.talk.later",expect_response=False)
 
     def handle_how_are_you_intent(self, message):
