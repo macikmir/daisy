@@ -66,7 +66,7 @@ class DaisyFlowerSkill(MycroftSkill):
         self.speak_dialog("hello",expect_response=False)
         newUser = self.settings.get('new.user')
         if (newUser == False):
-            self.speak(self.settings.get('user.name'))
+            self.speak(self.settings.get('user.name'),expect_response=False)
         self.speak_dialog("who.am.i",expect_response=False)
         
         self.ask_for_name()
@@ -102,7 +102,7 @@ class DaisyFlowerSkill(MycroftSkill):
         self.speak_dialog("i.feel.thirsty",expect_response=False)
     
     def handle_watering_plant_first_intent(self, message):
-        humidityReading = self.humidityReaderInstance.get_data()
+        #humidityReading = self.humidityReaderInstance.get_data()
         #if (humidityReading < 5):
         self.speak_dialog("watering.plant.first.positive")
         #else:
